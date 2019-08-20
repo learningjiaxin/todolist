@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import 'antd/dist/antd.css'
-import axios from 'axios'
 // 引入仓库
 import store from './store'
-import { getInputChangeAction, getAddItemAction, getDelItemAction, initListAction } from './store/actionCreators'
+import { initListAction, getToDoList, getInputChangeAction, getAddItemAction, getDelItemAction } from './store/actionCreators'
+import axios from 'axios'
 import ToDoListUI from './ToDoListUI'
 export default class App extends Component {
     constructor(props) {
@@ -19,8 +19,10 @@ export default class App extends Component {
     componentDidMount() {
         axios.get('/api/todolist').then((res) => {
             const data = res.data
+            // 改变store数据，重新走一遍redux流程
+            // 这里的action是一个对象
             const action = initListAction(data)
-            console.log(action, 'actionaction')
+            // 调用store.dispatch这个方法，返回的函数自动会接收到store.dispatch这个方法，所以这里可以直接调用dispatch方法
             store.dispatch(action)
         })
     }
