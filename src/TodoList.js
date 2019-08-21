@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { changeInputValue, addItem } from './store/actionCreator'
+import { changeInputValue, addItem, delItem } from './store/actionCreator'
 class TodoList extends Component {
     constructor(props) {
         super(props)
@@ -17,7 +17,7 @@ class TodoList extends Component {
                 <ul>
                     {
                         this.props.list.map((item, index) => {
-                            return <li key={index} onClick={this.props.handleDel}>{item}</li>
+                            return <li key={index} onClick={this.props.handleDel(index)}>{item}</li>
                         })
                     }
                 </ul>
@@ -48,8 +48,9 @@ const mapDispatchToProps = (dispatch) => {
             const action = addItem()
             dispatch(action)
         },
-        handleDel() {
-            
+        handleDel(index) {
+            const action = delItem(index)
+            dispatch(action)
         }
     }
 }
