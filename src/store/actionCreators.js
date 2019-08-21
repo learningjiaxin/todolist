@@ -1,4 +1,4 @@
-import { CHANGE_INPUT_VALUE, ADD_TODO_ITEM, DEL_TODO_ITEM, INIT_TODO_LIST } from './actionTypes'
+import { CHANGE_INPUT_VALUE, ADD_TODO_ITEM, DEL_TODO_ITEM, INIT_TODO_LIST, GET_INIT_LIST } from './actionTypes'
 import axios from 'axios'
 export const getInputChangeAction = (value) => ({
     type: CHANGE_INPUT_VALUE,
@@ -14,6 +14,10 @@ export const getDelItemAction = (index) => ({
 export const initListAction = (data) => ({
     type: INIT_TODO_LIST,
     data
+})
+
+export const getInitList = () => ({
+    type: GET_INIT_LIST
 })
 
 // redux-thunk

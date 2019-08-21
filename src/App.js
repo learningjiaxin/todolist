@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import 'antd/dist/antd.css'
 // 引入仓库
 import store from './store'
-import { initListAction, getToDoList, getInputChangeAction, getAddItemAction, getDelItemAction } from './store/actionCreators'
+import { getInitList, getInputChangeAction, getAddItemAction, getDelItemAction } from './store/actionCreators'
 import axios from 'axios'
 import ToDoListUI from './ToDoListUI'
 export default class App extends Component {
@@ -17,14 +17,16 @@ export default class App extends Component {
         store.subscribe(this.handleStoreChange)
     }
     componentDidMount() {
-        axios.get('/api/todolist').then((res) => {
-            const data = res.data
-            // 改变store数据，重新走一遍redux流程
-            // 这里的action是一个对象
-            const action = initListAction(data)
-            // 调用store.dispatch这个方法，返回的函数自动会接收到store.dispatch这个方法，所以这里可以直接调用dispatch方法
-            store.dispatch(action)
-        })
+        const action = getInitList()
+        store.dispatch(action)
+        // axios.get('/api/todolist').then((res) => {
+        //     const data = res.data
+        //     // 改变store数据，重新走一遍redux流程
+        //     // 这里的action是一个对象
+        //     const action = initListAction(data)
+        //     // 调用store.dispatch这个方法，返回的函数自动会接收到store.dispatch这个方法，所以这里可以直接调用dispatch方法
+        //     store.dispatch(action)
+        // })
     }
     handleInputChange(e) {
         const action = getInputChangeAction(e.target.value)
