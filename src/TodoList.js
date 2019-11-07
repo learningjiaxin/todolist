@@ -1,33 +1,26 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { changeInputValue, addItem, delItem } from './store/actionCreator'
-class TodoList extends Component {
-    constructor(props) {
-        super(props)
-    }
-    handleIn
-    render() {
-        console.log('object', this.props.list)
-        return (
+const TodoList = (props) => {
+    const { changeInputValue, handleClick, handleDel, inputValue, list } = props
+    return (
+        <div>
             <div>
-                <div>
-                    <input value={this.props.inputValue} onChange={this.props.changeInputValue} />
-                    <button onClick={this.props.handleClick}>提交</button>
-                </div>
-                <ul>
-                    {
-                        this.props.list.map((item, index) => {
-                            return <li key={index} onClick={this.props.handleDel(index)}>{item}</li>
-                        })
-                    }
-                </ul>
+                <input value={inputValue} onChange={changeInputValue} />
+                <button onClick={handleClick}>提交</button>
             </div>
-        )
-    }
+            <ul>
+                {
+                    list.map((item, index) => {
+                        return <li key={item} onClick={handleDel(index)}>{item}</li>
+                    })
+                }
+            </ul>
+        </div>
+    )
 }
 // 把store里的数据映身给这个组件，变成这个组件的props，这里的state就是store里的数据
 const mapStateToProps = (state) => {
-    console.log(state, 'statatat')
     return {
         // store里边的inputValue会映身到组件的props的inputValue里边
         // 所以当组件获取inputValue里不能用this.state.inputValue,而是用this.props.inputValue
@@ -48,7 +41,7 @@ const mapDispatchToProps = (dispatch) => {
             const action = addItem()
             dispatch(action)
         },
-        handleDel(index) {
+        handleDel: (index) => () => {
             const action = delItem(index)
             dispatch(action)
         }
@@ -58,4 +51,7 @@ const mapDispatchToProps = (dispatch) => {
 // mapStateToProps
 // 怎么让TodoList和store做连接呢？
 // 连接有一个映身关系，store里边的公用数据会映射到这个组件的props里边，
+// 这里TodoList没有什么逻辑处理，是一个UI组件，只有显示的一些代码，当你用connect把UI组件和一些数据一些业务逻辑
+// 相结合的时候，返回的实际上是一个容器组件
+// export导出的内容是connect执行的结果，是一个容器组件
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
